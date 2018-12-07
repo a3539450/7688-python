@@ -8,7 +8,6 @@ import socket
 import serial
 #import datetime
 
-
 #sys.path.insert(0, '/usr/lib/python2.7/bridge/')  # Type Bridge
 #from bridgeclient import BridgeClient as bridgeclient
 
@@ -39,12 +38,12 @@ Thread1 = threading.Thread(target = connected)
 def csvfile(table,payload):   
     if connect == 1:
         #with open('/MCS/output1.csv', 'a') as csvfile: ##Python 2.7 Unix
-        with open('C:\python\data.csv', 'a', newline='' ) as csvfile: ##Python 3.x Windows
+        with open('C:\python\data.csv ', 'a', newline='' ) as csvfile: ##Python 3.x Windows
             writer1 = csv.writer(csvfile)
             writer1.writerows(table)
         csvfile.closed
     else :
-        headers = {"Content-type": "text/csv", "deviceKey": deviceKey}
+        headers = {"Content-type": "text/json", "deviceKey": deviceKey}
         conn = http.client.HTTPConnection(ip + ":" + port, timeout=30)
         try:
             conn.connect()
@@ -64,18 +63,51 @@ def csvfile(table,payload):
                 writer = log.writer(log)
                 writer = writerow("Error: %s" % ex)
 
-#def update():
-    #if connect == 1:
+def update():
+    if connect == 1:
+
 
 
 def ttes():
     while True:
+        int D1, D2, D3, D4, D5, D6, D7, D8, D9, E1, E2, E3
         print(connect)
-        #value = bridgeclient()
-        #h0 = value.get("h") ##arduino
-        #t0 = value.get("t") ##arduino
-        #m0 = value.get("m") ##arduino
-        #p0 = value.get("p") ##arduino
+        if srl.read() == 'a': ## Humi 1
+            IncommingNum = srl.read()
+            D1 = int(srl.read(int(IncommingNum)))
+        if srl.read() == 'b': ## Humi 2
+            IncommingNum = srl.read()
+            D2 = int(srl.read(int(IncommingNum)))
+        if srl.read() == 'c': ## Humi 3
+            IncommingNum = srl.read()
+            D3 = int(srl.read(int(IncommingNum)))
+        if srl.read() == 'd': ## Humi 4
+            IncommingNum = srl.read()
+            D4 = int(srl.read(int(IncommingNum)))
+        if srl.read() == 'e': ## Humi 5
+            IncommingNum = srl.read()
+            D5 = int(srl.read(int(IncommingNum)))
+        if srl.read() == 'f': ## Relay 1
+            IncommingNum = srl.read()
+            D6 = int(srl.read(int(IncommingNum)))
+        if srl.read() == 'g': ## Relay 2
+            IncommingNum = srl.read()
+            D7 = int(srl.read(int(IncommingNum)))
+        if srl.read() == 'h': ## Relay 3
+            IncommingNum = srl.read()
+            D8 = int(srl.read(int(IncommingNum)))
+        if srl.read() == 'i': ## Relay 4
+            IncommingNum = srl.read()
+            D9 = int(srl.read(int(IncommingNum)))
+        if srl.read() == 'j': ## Relay 5
+            IncommingNum = srl.read()
+            E1 = int(srl.read(int(IncommingNum)))
+        if srl.read() == 'k': ## Add Relay
+            IncommingNum = srl.read()
+            E2 = int(srl.read(int(IncommingNum)))
+        if srl.read() == 'l': ## Water
+            IncommingNum = srl.read()
+            E3 = int(srl.read(int(IncommingNum)))
         h0 = "11" ##arduino
         t0 = "12" ##arduino
         m0 = "13" ##arduino
