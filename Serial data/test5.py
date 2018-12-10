@@ -75,9 +75,13 @@ def ttes():
         if srl.read() == 'a': ## Humi 1
             IncommingNum = srl.read()
             D1 = int(srl.read(int(IncommingNum)))
+        else:
+            D1 = '0'
         if srl.read() == 'b': ## Humi 2
             IncommingNum = srl.read()
             D2 = int(srl.read(int(IncommingNum)))
+        else:
+            D2 = '0'
         if srl.read() == 'c': ## Humi 3
             IncommingNum = srl.read()
             D3 = int(srl.read(int(IncommingNum)))
