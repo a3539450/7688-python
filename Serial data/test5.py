@@ -63,8 +63,8 @@ def csvfile(table,payload):
                 writer = log.writer(log)
                 writer = writerow("Error: %s" % ex)
 
-def update():
-    if connect == 1:
+# def update():
+#     if connect == 1:
 
 
 

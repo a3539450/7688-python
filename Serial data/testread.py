@@ -8,7 +8,8 @@ def main():
         for i,rows in enumerate(writer):
             if i <= 3:
                 row = rows
-                print(row)
+                data = row[0] + ',' + row[1] + ',' + row[2]
+                print(data)
     csvfile.closed
 if __name__ == "__main__":
      main()
