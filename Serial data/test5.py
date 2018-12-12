@@ -39,10 +39,17 @@ def csvfile(table,payload):
     if connect == 1:
         #with open('/MCS/output1.csv', 'a') as csvfile: ##Python 2.7 Unix
         with open('C:\python\data.csv ', 'a', newline='' ) as csvfile: ##Python 3.x Windows
-            writer1 = csv.writer(csvfile)
-            writer1.writerows(table)
+            writer2 = csv.writer(csvfile)
+            writer2.writerows(table)
         csvfile.closed
     else :
+        with open('C:\Python\casd.csv', newline='') as readcsvfile:
+            read1 = csv.reader(readcsvfile)
+            for i,row in enumerate(read1)
+                if i <= 3:
+                row = rows
+                data = row[0] + ',' + row[1] + ',' + row[2]
+                print(data)
         headers = {"Content-type": "text/json", "deviceKey": deviceKey}
         conn = http.client.HTTPConnection(ip + ":" + port, timeout=30)
         try:
@@ -54,81 +61,71 @@ def csvfile(table,payload):
             #http.client.HTTPConnection.close()
         except (http.client.HTTPException, socket.error) as ex:
             #with open('/MCS/output1.csv', 'a') as csvfile: ##Python 2.7 Unix
-            with open('C:\python\data.csv', 'a', newline='')as csvfile: ##Python 3.x Windows
-                writer = csv.writer(csvfile)
-                writer.writerows(table)
+            with open('C:\python\data.csv', 'a', newline='')as csvfile1: ##Python 3.x Windows
+                writer1 = csv.writer(csvfile1)
+                writer1.writerows(table)
             csvfile.close
-            #with open('/log/error.log', 'a', newline='') as log: ## Python 2.7 Unix
+            #with open('/log/error.log', 'a') as log: ## Python 2.7 Unix
             with open('C:\python\error.log', 'a', newline='') as log: ## Python 3.x Windows
-                writer = log.writer(log)
-                writer = writerow("Error: %s" % ex)
+                error = log.writer(log)
+                error.writerow("Error: %s" % ex)
 
-# def update():
-#     if connect == 1:
+def data():
+    if connect == 1:
+        
 
 
 
 def ttes():
     while True:
         int D1, D2, D3, D4, D5, D6, D7, D8, D9, E1, E2, E3
-        print(connect)
-        if srl.read() == 'a': ## Humi 1
-            IncommingNum = srl.read()
-            D1 = int(srl.read(int(IncommingNum)))
-        else:
-            D1 = '0'
-        if srl.read() == 'b': ## Humi 2
-            IncommingNum = srl.read()
-            D2 = int(srl.read(int(IncommingNum)))
-        else:
-            D2 = '0'
-        if srl.read() == 'c': ## Humi 3
-            IncommingNum = srl.read()
-            D3 = int(srl.read(int(IncommingNum)))
-        if srl.read() == 'd': ## Humi 4
-            IncommingNum = srl.read()
-            D4 = int(srl.read(int(IncommingNum)))
-        if srl.read() == 'e': ## Humi 5
-            IncommingNum = srl.read()
-            D5 = int(srl.read(int(IncommingNum)))
-        if srl.read() == 'f': ## Relay 1
-            IncommingNum = srl.read()
-            D6 = int(srl.read(int(IncommingNum)))
-        if srl.read() == 'g': ## Relay 2
-            IncommingNum = srl.read()
-            D7 = int(srl.read(int(IncommingNum)))
-        if srl.read() == 'h': ## Relay 3
-            IncommingNum = srl.read()
-            D8 = int(srl.read(int(IncommingNum)))
-        if srl.read() == 'i': ## Relay 4
-            IncommingNum = srl.read()
-            D9 = int(srl.read(int(IncommingNum)))
-        if srl.read() == 'j': ## Relay 5
-            IncommingNum = srl.read()
-            E1 = int(srl.read(int(IncommingNum)))
-        if srl.read() == 'k': ## Add Relay
-            IncommingNum = srl.read()
-            E2 = int(srl.read(int(IncommingNum)))
-        if srl.read() == 'l': ## Water
-            IncommingNum = srl.read()
-            E3 = int(srl.read(int(IncommingNum)))
-        h0 = "11" ##arduino
-        t0 = "12" ##arduino
-        m0 = "13" ##arduino
-        p0 = "14" ##arduino
-        p1 = str(int(time.time()))
-        t0String = "temp,," + t0
-        h0String = "humi,," + h0
-        m0String = "me,,"    + m0
-        p0String = "hpa,,"  + p0
-        payload =  t0String + "\n" + h0String + "\n" + m0String + "\n" + p0String + "\n" + p1 + "\n"
-        table = [
-         ["temp",p1,t0],
-         ["humi",p1,h0],
-         ["me",p1,m0],
-         ["hpa",p1,p0]]
+        data = str(ser.readline())
+        dataa = data.replace("\n","")
+        data1 = dataa.split(",")
+        for i,rows in enumerate(data1):
+            if i == 0:
+                D1 = rows[0:5]
+            else:
+                D1 = '0'
+            if i == 1:
+                D2 = rows[0:5]
+            else:
+                D2 = '0'
+            if i == 2:
+                D3 = rows[0:5]
+            else:
+                D3 = '0'
+            if i == 3:
+                D4 = rows[0:5]
+            else:
+                D4 = '0'
+            if i == 4:
+                D5 = rows[0:5]
+            else:
+                D5 = '0'
+            if i == 5:
+                D6 = rows[0:5]
+            else:
+                D6 = '0'
+        D1String = "D1,," + D1
+        D2String = "D2,," + D2
+        D3String = "D3,," + D3
+        D4String = "D4,," + D4
+        D5String = "D5,," + D5
+        D6String = "D6,," + D6
+        payload = D1String + "\n" + D2String + "\n" + D3String + "\n" + D4String + "\n" + D5String + "\n" + D6String + "\n"
+        # p1 = str(int(time.time()))
+        # t0String = "temp,," + t0
+        # h0String = "humi,," + h0
+        # m0String = "me,,"    + m0
+        # p0String = "hpa,,"  + p0
+        # payload =  t0String + "\n" + h0String + "\n" + m0String + "\n" + p0String + "\n" + p1 + "\n"
+        # table = [
+        #  ["temp",p1,t0],
+        #  ["humi",p1,h0],
+        #  ["me",p1,m0],
+        #  ["hpa",p1,p0]]
         csvfile(table,payload)
-        time.sleep(5)
 Thread2 = threading.Thread(target = ttes)
 
 def main():
