@@ -1,5 +1,21 @@
 import sys
 import serial
+import urllib
+import time
+
+# host='http://www.google.com/'
+
+# while True:
+#         try:
+#             urllib.urlopen(host)
+#             connect = 0
+#             time.sleep(10)
+#             print("Success connect")
+#         except:
+#             connect = 1
+#             time.sleep(15)
+#             print("Connect Failed")
+
 
 Serial2 = 115200
 # srl = serial.Serial('COM5',115200)
@@ -12,17 +28,17 @@ while True:
     data1 = dataa.split(",")
     for i,rows in enumerate(data1):
         if i == 0:
-            data2 = rows[0:5]
+            data2 = rows[2:5]
         if i == 1:
-            data3 = rows[0:5]
+            data3 = rows[2:5]
         if i == 2:
-            data4 = rows[0:5]
+            data4 = rows[2:5]
         if i == 3:
-            data5 = rows[0:5]
+            data5 = rows[2:5]
         if i == 4:
-            data6 = rows[0:5]
+            data6 = rows[2:5]
         if i == 5:
-            data7 = rows[0:5]
+            data7 = rows[2:5]
     print(data2)
     print(data3)
     print(data4)
