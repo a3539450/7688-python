@@ -52,17 +52,18 @@ def csvfile(table,payload):
         csvfile.closed
     else :
         print("Connect OK")
-        # with open('/MCS/output1.csv') as readcsvfile:
+        with open('/MCS/output1.csv') as readcsvfile:
         # with open('C:\Python\casd.csv', newline='') as readcsvfile:
-        #     read1 = csv.reader(readcsvfile)
-        #     for i,row in enumerate(read1)
-        #         if i <= 3:
-        #         row = rows
-        #         data = row[0] + ',' + row[1] + ',' + row[2]
-        #         print(data)
-        #     readcsvfile.close
+            read1 = csv.reader(readcsvfile)
+            for i,row in enumerate(read1)
+                if i <= 3:
+                row = rows
+                data = row[0] + ',' + row[1] + ',' + row[2]
+                print(data)
+            readcsvfile.close
         headers = {"Content-type": "text/json", "deviceKey": deviceKey}
         try:
+            print("Connect ASSS")
             # conn = http.client.HTTPConnection(ip + ":" + port, timeout=30) ## Windows Python 3.x
             conn = httplib.HTTPConnection(ip + ":" + port) ## Unix Python 2.7
             conn.connect()
@@ -112,20 +113,8 @@ def ttes():
         ["D5",p1,DE],
         ["D6",p1,DF],
         ]
-        # p1 = str(int(time.time()))
-        # t0String = "temp,," + t0
-        # h0String = "humi,," + h0
-        # m0String = "me,,"    + m0
-        # p0String = "hpa,,"  + p0
-        # payload =  t0String + "\n" + h0String + "\n" + m0String + "\n" + p0String + "\n" + p1 + "\n"
-        # table = [
-        #  ["temp",p1,t0],
-        #  ["humi",p1,h0],
-        #  ["me",p1,m0],
-        #  ["hpa",p1,p0]]
-        time.sleep(30)
+        time.sleep(300)
         csvfile(table,payload)
-        # print(table)
 Thread2 = threading.Thread(target = ttes)
 
 def main():

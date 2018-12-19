@@ -28,17 +28,17 @@ while True:
     data1 = dataa.split(",")
     for i,rows in enumerate(data1):
         if i == 0:
-            data2 = rows[2:5]
+            data2 = rows[2:6]
         if i == 1:
-            data3 = rows[2:5]
+            data3 = rows[2:6]
         if i == 2:
-            data4 = rows[2:5]
+            data4 = rows[2:6]
         if i == 3:
-            data5 = rows[2:5]
+            data5 = rows[2:6]
         if i == 4:
-            data6 = rows[2:5]
+            data6 = rows[2:6]
         if i == 5:
-            data7 = rows[2:5]
+            data7 = rows[2:6]
     print(data2)
     print(data3)
     print(data4)
