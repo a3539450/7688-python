@@ -102,21 +102,24 @@ def Serial():
     global DF
     global DG
     while True:
-        serread = str(ser.readline())
-        sera = serread.replace("\n","")
-        data1 = sera.split(",")
-        for i , rows in enumerate(data1):
-            if i == 4:
-                DE = rows[2:5]
-            if i == 5:
-                DG = rows[2:5]
-        DH = DG / 60
-        DJ = DF + DH
-        DF = str(DJ)
-    Thread4 = threading.Thread(target= Serial)
+        # serread = str(ser.readline())
+        # sera = serread.replace("\n","")
+        # data1 = sera.split(",")
+        # for i , rows in enumerate(data1):
+        #     if i == 4:
+        #         DE = rows[2:5]
+        #     if i == 5:
+        #         DG = rows[2:5]
+        print(DG)
+        # DH = DG / 60
+        # DJ = DF + DH
+        # DF = str(DJ)
+    
+Thread2 = threading.Thread(target = Serial)
         
 def ttes():
     global DF
+    global DG
     DS = str(DF)
     DE = str(0) 
     DD = str(0)
@@ -127,17 +130,17 @@ def ttes():
         data1 = sera.split(",")
         for i,rows in enumerate(data1):
             if i == 0:
-                DA = rows[2:5]
+                DA = rows[2:6]
             if i == 1:
-                DB = rows[2:5]
+                DB = rows[2:6]
             if i == 2:
-                DC = rows[2:5]
+                DC = rows[2:6]
             # if i == 3:
             #     DD = rows[2:5]
-            # if i == 4:
-            #     DE = rows[2:5]
-            # if i == 5:
-            #     DF = rows[2:5]
+            if i == 4:
+                DG = rows[2:5]
+            if i == 5:
+                DE = rows[2:5]
         D1String = "D1,," + DA
         D2String = "D2,," + DB
         D3String = "D3,," + DC
@@ -153,14 +156,14 @@ def ttes():
         ["D5",p1,DE],
         ["D6",p1,DF],
         ]
-        time.sleep(300)
+        time.sleep(20)
         csvfile(table,payload)
-Thread2 = threading.Thread(target = ttes)
+Thread3 = threading.Thread(target = ttes)
 
 def main():
-    # Thread4.start()
-    Thread2.start()
     Thread1.start()
+    Thread2.start()
+    Thread3.start()
 
 if __name__ == "__main__":
     main()
