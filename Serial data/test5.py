@@ -13,7 +13,14 @@ import logging
 logging.basicConfig(filename='/tmp/myapp.log', level=logging.DEBUG, 
                     format='%(asctime)s %(levelname)s %(name)s %(message)s')
 logger=logging.getLogger(__name__)
-global connect 
+global connect
+global L
+global tt
+global DF
+global DG
+DG = 0
+DF = 0
+tt = 0
 host='http://www.google.com/'
 deviceId = "DpjBrN1w"
 deviceKey = "0FQSO35FKLFkjpLF"
@@ -52,15 +59,15 @@ def csvfile(table,payload):
         csvfile.closed
     else :
         print("Connect OK")
-        with open('/MCS/output1.csv') as readcsvfile:
-        # with open('C:\Python\casd.csv', newline='') as readcsvfile:
-            read1 = csv.reader(readcsvfile)
-            for i,row in enumerate(read1)
-                if i <= 3:
-                row = rows
-                data = row[0] + ',' + row[1] + ',' + row[2]
-                print(data)
-            readcsvfile.close
+        # with open('/MCS/output1.csv') as readcsvfile:
+        # # with open('C:\Python\casd.csv', newline='') as readcsvfile:
+        #     read1 = csv.reader(readcsvfile)
+        #     for i , row in enumerate(read1)
+        #         if i <= 3:
+        #         row = rows
+        #         data = row[0] + ',' + row[1] + ',' + row[2]
+        #         print(data)
+        #     readcsvfile.close
         headers = {"Content-type": "text/json", "deviceKey": deviceKey}
         try:
             print("Connect ASSS")
@@ -79,7 +86,40 @@ def csvfile(table,payload):
     response = conn.getresponse()
     print( response.status, response.reason, payload, time.strftime("%c"))
     conn.close
+
+# def Water():
+#     # global L
+#     global tt
+#     global DG
+#     global DF
+#     mls = DG/60
+#     DF = DF + mls
+#     tt = tt + 1
+#     Thread3 = threading.Thread( target = Water )
+
+def Serial():
+    global DE
+    global DF
+    global DG
+    while True:
+        serread = str(ser.readline())
+        sera = serread.replace("\n","")
+        data1 = sera.split(",")
+        for i , rows in enumerate(data1):
+            if i == 4:
+                DE = rows[2:5]
+            if i == 5:
+                DG = rows[2:5]
+        DH = DG / 60
+        DJ = DF + DH
+        DF = str(DJ)
+    Thread4 = threading.Thread(target= Serial)
+        
 def ttes():
+    global DF
+    DS = str(DF)
+    DE = str(0) 
+    DD = str(0)
     while True:
         p1 = str(int(time.time()))
         serread = str(ser.readline())
@@ -92,18 +132,18 @@ def ttes():
                 DB = rows[2:5]
             if i == 2:
                 DC = rows[2:5]
-            if i == 3:
-                DD = rows[2:5]
-            if i == 4:
-                DE = rows[2:5]
-            if i == 5:
-                DF = rows[2:5]
+            # if i == 3:
+            #     DD = rows[2:5]
+            # if i == 4:
+            #     DE = rows[2:5]
+            # if i == 5:
+            #     DF = rows[2:5]
         D1String = "D1,," + DA
         D2String = "D2,," + DB
         D3String = "D3,," + DC
         D4String = "D4,," + DD
         D5String = "D5,," + DE
-        D6String = "D6,," + DF
+        D6String = "D6,," + DS
         payload = D1String + "\n" + D2String + "\n" + D3String + "\n" + D4String + "\n" + D5String + "\n" + D6String + "\n"
         table = [
         ["D1",p1,DA],
@@ -118,6 +158,7 @@ def ttes():
 Thread2 = threading.Thread(target = ttes)
 
 def main():
+    # Thread4.start()
     Thread2.start()
     Thread1.start()
 
