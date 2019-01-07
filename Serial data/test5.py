@@ -108,9 +108,10 @@ def ttes():
                 DV = rows[2:5]
         CD = CD + int(DV)
         DS = ('%.3f' % float(float(CD) / 60 / 60))
-        D1String = "D1,," + DA
-        D2String = "D2,," + DB
-        D3String = "D3,," + DC
+        DBB = (950 - int(DB)) / 6
+        D1String = "D1,," + str(0)
+        D2String = "D2,," + str(DBB)
+        D3String = "D3,," + str(0)
         D4String = "D4,," + DD
         D5String = "D5,," + DE
         D6String = "D6,," + DS
