@@ -3,24 +3,26 @@ import time
 import csv
 import urllib
 import threading
-#import http ## Windows Python 3.2
-import httplib ## Unix Python 2.7
+import httplib
 import socket
 import serial
 import logging
-#import datetime
-
 logging.basicConfig(filename='/tmp/myapp.log', level=logging.DEBUG, 
                     format='%(asctime)s %(levelname)s %(name)s %(message)s')
 logger=logging.getLogger(__name__)
 global connect
 global L
-global tt
-global DF
-global DG
-DG = 0
+payload = ""
+table = ""
+DA = 0
+DB = 0
+DC = 0
+DD = 0
+DE = 0
+DV = int(0)
 DF = 0
-tt = 0
+DS = ""
+CD = int(0)
 host='http://www.google.com/'
 deviceId = "DpjBrN1w"
 deviceKey = "0FQSO35FKLFkjpLF"
@@ -29,8 +31,7 @@ port = "80"
 timeout=5
 connect = 1
 Serial2 = 115200
-ports = '/dev/ttyS0' ## Unix 7688
-# ports = 'COM5' ## Windows System
+ports = '/dev/ttyS0' 
 ser = serial.Serial(ports,Serial2)
 def connected():
     print("Connect Test")
@@ -52,32 +53,19 @@ Thread1 = threading.Thread(target = connected)
 def csvfile(table,payload):   
     if connect == 1:
         print("Connect Fuck")
-        with open('/MCS/output1.csv', 'a') as csvfile: ##Python 2.7 Unix
-        # with open('C:\python\data.csv ', 'a', newline='' ) as csvfile: ##Python 3.x Windows
+        with open('/MCS/output1.csv', 'a') as csvfile: 
             writer2 = csv.writer(csvfile)
             writer2.writerows(table)
         csvfile.closed
     else :
         print("Connect OK")
-        # with open('/MCS/output1.csv') as readcsvfile:
-        # # with open('C:\Python\casd.csv', newline='') as readcsvfile:
-        #     read1 = csv.reader(readcsvfile)
-        #     for i , row in enumerate(read1)
-        #         if i <= 3:
-        #         row = rows
-        #         data = row[0] + ',' + row[1] + ',' + row[2]
-        #         print(data)
-        #     readcsvfile.close
         headers = {"Content-type": "text/json", "deviceKey": deviceKey}
         try:
             print("Connect ASSS")
-            # conn = http.client.HTTPConnection(ip + ":" + port, timeout=30) ## Windows Python 3.x
-            conn = httplib.HTTPConnection(ip + ":" + port) ## Unix Python 2.7
+            conn = httplib.HTTPConnection(ip + ":" + port) 
             conn.connect()
-        #except (http.client.HTTPException, socket.error) as ex: ## Windows Python 3.x
-        except (httplib.HTTPException, socket.error) as ex: ## Unix Python 2.7
-            with open('/MCS/output1.csv', 'a') as csvfile: ## Python 2.7 Unix
-            # with open('C:\python\data.csv', 'a', newline='')as csvfile1: ## Python 3.x Windows
+        except (httplib.HTTPException, socket.error) as ex: 
+            with open('/MCS/output1.csv', 'a') as csvfile: 
                 writer1 = csv.writer(csvfile)
                 writer1.writerows(table)
             csvfile.close
@@ -87,47 +75,23 @@ def csvfile(table,payload):
     print( response.status, response.reason, payload, time.strftime("%c"))
     conn.close
 
-# def Water():
-#     # global L
-#     global tt
-#     global DG
-#     global DF
-#     mls = DG/60
-#     DF = DF + mls
-#     tt = tt + 1
-#     Thread3 = threading.Thread( target = Water )
-
-def Serial():
-    global DE
-    global DF
-    global DG
-    while True:
-        # serread = str(ser.readline())
-        # sera = serread.replace("\n","")
-        # data1 = sera.split(",")
-        # for i , rows in enumerate(data1):
-        #     if i == 4:
-        #         DE = rows[2:5]
-        #     if i == 5:
-        #         DG = rows[2:5]
-        print(DG)
-        # DH = DG / 60
-        # DJ = DF + DH
-        # DF = str(DJ)
-    
-Thread2 = threading.Thread(target = Serial)
-        
 def ttes():
-    global DF
-    global DG
-    DS = str(DF)
-    DE = str(0) 
-    DD = str(0)
+    global DA
+    global DB
+    global DC
+    global DD
+    global DE
+    global DS
+    global CD
+    global DV
+    global payload
+    global table
     while True:
         p1 = str(int(time.time()))
         serread = str(ser.readline())
         sera = serread.replace("\n","")
         data1 = sera.split(",")
+        print(data1)
         for i,rows in enumerate(data1):
             if i == 0:
                 DA = rows[2:6]
@@ -136,11 +100,14 @@ def ttes():
             if i == 2:
                 DC = rows[2:6]
             # if i == 3:
-            #     DD = rows[2:5]
+                # DD = rows[2:5]
+                DD = "0"
             if i == 4:
-                DG = rows[2:5]
+                DE = rows[2:8]
             if i == 5:
-                DE = rows[2:5]
+                DV = rows[2:5]
+        CD = CD + int(DV)
+        DS = ('%.3f' % float(float(CD) / 60 / 60))
         D1String = "D1,," + DA
         D2String = "D2,," + DB
         D3String = "D3,," + DC
@@ -154,16 +121,21 @@ def ttes():
         ["D3",p1,DC],
         ["D4",p1,DD],
         ["D5",p1,DE],
-        ["D6",p1,DF],
+        ["D6",p1,DS],
         ]
-        time.sleep(20)
-        csvfile(table,payload)
+    print(payload)
+    time.sleep(1)
 Thread3 = threading.Thread(target = ttes)
+
+def read():
+    while True:
+        time.sleep(30)
+        csvfile(table,payload)
+Thread4 = threading.Thread(target = read)
 
 def main():
     Thread1.start()
-    Thread2.start()
     Thread3.start()
-
+    Thread4.start()
 if __name__ == "__main__":
     main()
